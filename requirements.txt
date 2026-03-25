@@ -2,4 +2,10 @@ transformers
 torch
 sentencepiece
 sacremoses
+
+pandas
+scikit-learn
+joblib
+
+sentence-transformers
 openai
