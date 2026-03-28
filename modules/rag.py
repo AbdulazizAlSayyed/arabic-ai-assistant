@@ -173,3 +173,6 @@ def check_knowledge_base():
     if not docs:
         return False, "⚠️ لا توجد مستندات في قاعدة المعرفة. أضف ملفات .txt إلى مجلد data/kb/"
     return True, f"✅ تم العثور على {len(docs)} مستند(ات) في قاعدة المعرفة"
+
+
+

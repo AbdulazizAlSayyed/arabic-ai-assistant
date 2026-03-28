@@ -42,24 +42,39 @@ def load_dialect_patterns():
     }
     return patterns, msa_markers
 
+import platform
+
 def identify_dialect_with_camel(text: str) -> dict:
+    # ❌ عطّل CAMeL على Windows
+    if platform.system() == "Windows":
+        return None
+
     try:
         from camel_tools.dialectid import DialectIdentifier
+
         identifier = DialectIdentifier()
         result = identifier.identify(text)
-        dialect_map = {"EGY": "Egyptian", "LEV": "Levantine", "GLF": "Gulf", "NOR": "MSA", "MAG": "Maghrebi"}
+
+        dialect_map = {
+            "EGY": "Egyptian",
+            "LEV": "Levantine",
+            "GLF": "Gulf",
+            "NOR": "MSA",
+            "MAG": "Maghrebi"
+        }
+
         detected = result.get('dialect', 'Unknown')
         dialect_name = dialect_map.get(detected, detected)
+
         return {
             "dialect": dialect_name,
             "method": "CAMeL Tools (ML Model)",
             "confidence": result.get('confidence', 0.5),
             "raw_result": result
         }
-    except Exception as e:
-        print(f"CAMeL dialect error: {e}")
-        return None
 
+    except Exception:
+        return None  # ❌ بدون print (منع spam)
 def identify_dialect(text: str) -> dict:
     try:
         camel_result = identify_dialect_with_camel(text)
