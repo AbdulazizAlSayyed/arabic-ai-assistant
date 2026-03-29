@@ -76,8 +76,7 @@ def summarize_text(text: str, max_length: int = 150) -> dict:
         # ==========================
         if is_arabic(text) and summarizer:
             # 1. AR → EN
-            translated = translate_text(text, target_lang="en")
-
+            translated = translate_text(text, source_lang="ar", target_lang="en")
             # 2. Summarize
             result = summarizer(
                 translated[:1024],
@@ -90,7 +89,7 @@ def summarize_text(text: str, max_length: int = 150) -> dict:
             summary_en = result[0]['summary_text']
 
             # 3. EN → AR
-            summary_ar = translate_text(summary_en, target_lang="ar")
+            summary_ar = translate_text(summary_en, source_lang="en", target_lang="ar")
 
             return {
                 "summary": summary_ar,
